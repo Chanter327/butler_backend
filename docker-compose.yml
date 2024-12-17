@@ -1,0 +1,31 @@
+services:
+  app:
+    build:
+      context: .
+    volumes:
+      - .:/app
+      - air-config:/root/.air
+    ports:
+      - "8080:8080"
+    environment:
+      - POSTGRES_HOST=postgres
+      - POSTGRES_PORT=5432
+      - POSTGRES_USER=butler
+      - POSTGRES_PASSWORD=p@55vv0rd
+      - POSTGRES_DB=butler_db
+    depends_on:
+      - postgres
+  postgres:
+    image: postgres:17.2
+    container_name: postgres
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: butler
+      POSTGRES_PASSWORD: p@55vv0rd
+      POSTGRES_DB: butler_db
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+volumes:
+  pgdata:
+  air-config:
